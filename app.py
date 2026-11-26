@@ -20,7 +20,7 @@ import db
 from validation import CATEGORY_FIELDS, COUNTRIES, validate_submission
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "development-secret-change-me")
+app.secret_key = os.getenv("SECRET_KEY", "dev-only-secret-not-for-production")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
