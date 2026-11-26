@@ -21,6 +21,7 @@
   --line-2: #d3cbb8;
   --white: #ffffff;
   --shadow-color: rgba(27, 44, 80, 0.10);
+  --logo-shadow: 0 6px 16px var(--shadow-color);
   --focus: #c08f3e;
 
   --font-display: Georgia, "Times New Roman", serif;
@@ -103,19 +104,22 @@ a { color: var(--navy); }
 
 .rail-inner > * { position: relative; }
 
-.brand-lockup { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.brand-lockup { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 
 .logo {
   display: block;
   flex: 0 0 auto;
-  width: 80px;
-  height: 80px;
-  padding: 7px;
-  border-radius: 12px;
+  width: 62px;
+  height: 62px;
+  padding: 6px;
+  border: 2px solid var(--brass-2);
+  border-radius: 50%;
   background: var(--paper-2);
+  box-shadow: var(--logo-shadow);
+  object-fit: contain;
 }
 
-.logo-small { width: 76px; height: 76px; background: transparent; padding: 0; }
+.logo-small { width: 58px; height: 58px; }
 
 .eyebrow {
   display: block;
@@ -345,7 +349,7 @@ td.grand { color: var(--brass); font-weight: 800; }
 @media (max-width: 420px) {
   .shell { width: calc(100% - 20px); padding-top: 12px; padding-bottom: 40px; }
   .rail-inner { padding: 18px; }
-  .logo { width: 68px; height: 68px; }
+  .logo { width: 56px; height: 56px; padding: 5px; }
   .date-card strong { font-size: 0.84rem; }
   .live-stat strong { font-size: 0.96rem; }
   .live-stat { font-size: 0.72rem; }
