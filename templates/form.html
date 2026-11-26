@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Church attendance report for Sunday, 29 November 2026">
+  <title>Attendance Report | Deeper Life Bible Church</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div class="rail-inner">
+        <div class="brand-lockup">
+          <img class="logo" src="{{ url_for('static', filename='logo.JPG') }}" alt="Deeper Life Bible Church logo">
+          <div class="brand-text">
+            <span class="eyebrow">Deeper Life Bible Church</span>
+            <h1>Attendance Report</h1>
+          </div>
+        </div>
+
+        <p class="rail-copy">One clear record of everyone gathered in person and online.</p>
+
+        <div class="date-card">
+          <span>Reporting for</span>
+          <strong>Sunday, 29 November 2026</strong>
+        </div>
+
+        <div class="progress-block">
+          <div class="progress-head">
+            <span>Form completion</span>
+            <span id="progress-count">0 of 16</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+
+        <div class="live-stats" aria-live="polite">
+          <div class="live-stat"><span>In person</span><strong id="total-inperson">0</strong></div>
+          <div class="live-stat"><span>Online</span><strong id="total-online">0</strong></div>
+          <div class="live-stat live-grand"><span>Grand attendance</span><strong id="total-grand">0</strong></div>
+        </div>
+
+        <p class="rail-note">Every field is required. Counts may be zero.</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      {% if submitted %}
+      <div class="alert alert-success" role="status">
+        <span class="alert-icon" aria-hidden="true">✓</span>
+        <div>
+          <strong>Report received</strong>
+          <span>Your attendance report has been saved.</span>
+          <a href="{{ url_for('form') }}">Submit another report</a>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if db_error %}
+      <div class="alert alert-error" role="alert">
+        <span class="alert-icon" aria-hidden="true">!</span>
+        <div><strong>Unable to save</strong><span>{{ db_error }}</span></div>
+      </div>
+      {% endif %}
+
+      {% macro number_field(name, label, values, errors) %}
+      <div class="field">
+        <label for="{{ name }}">{{ label }} <span class="req" aria-hidden="true">*</span></label>
+        <input type="number" id="{{ name }}" name="{{ name }}" min="0" step="1"
+               inputmode="numeric" placeholder="0" required
+               value="{{ values.get(name, '') }}"
+               class="{% if errors.get(name) %}is-invalid{% endif %}"
+               aria-invalid="{% if errors.get(name) %}true{% else %}false{% endif %}">
+        {% if errors.get(name) %}<p class="field-error">{{ errors.get(name) }}</p>{% endif %}
+      </div>
+      {% endmacro %}
+
+      <form method="post" action="{{ url_for('submit') }}" id="attendance-form" novalidate>
+        <section class="panel">
+          <header class="panel-head">
+            <span class="panel-index">I</span>
+            <div>
+              <h2>Country &amp; summary</h2>
+              <p>Where this report comes from.</p>
+            </div>
+          </header>
+
+          <div class="field field-wide">
+            <label for="country">Select your country <span class="req" aria-hidden="true">*</span></label>
+            <div class="select-wrap">
+              <select id="country" name="country" required
+                      class="{% if errors.get('country') %}is-invalid{% endif %}"
+                      aria-invalid="{% if errors.get('country') %}true{% else %}false{% endif %}">
+                <option value="">Choose a country</option>
+                {% for country in countries %}
+                <option value="{{ country }}" {% if values.get('country') == country %}selected{% endif %}>{{ country }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% if errors.get('country') %}<p class="field-error">{{ errors.get('country') }}</p>{% endif %}
+          </div>
+
+          <div class="field-wide">
+            {{ number_field('total_online', 'Members attending online (total)', values, errors) }}
+          </div>
+
+          <div class="grid grid-2">
+            {{ number_field('total_locations', 'Church locations', values, errors) }}
+            {{ number_field('total_pastors', 'Pastors', values, errors) }}
+          </div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <span class="panel-index">II</span>
+            <div>
+              <h2>Church workers</h2>
+              <p>Brothers and sisters serving in your country.</p>
+            </div>
+          </header>
+          <div class="grid grid-2">
+            {{ number_field('workers_brothers', 'Brothers', values, errors) }}
+            {{ number_field('workers_sisters', 'Sisters', values, errors) }}
+          </div>
+          <div class="inline-total"><span>Total church workers</span><strong id="workers-total">0</strong></div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <span class="panel-index">III</span>
+            <div>
+              <h2>Member attendance</h2>
+              <p>In-person members in each group. Online members are entered once above.</p>
+            </div>
+          </header>
+
+          <div class="categories">
+            {% for category in categories %}
+            <div class="category">
+              <h3>{{ category.title }}</h3>
+              <div class="grid grid-2">
+                {{ number_field(category.key ~ '_' ~ category.first_suffix, category.first_label, values, errors) }}
+                {{ number_field(category.key ~ '_' ~ category.second_suffix, category.second_label, values, errors) }}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </section>
+
+        <div class="form-footer">
+          <p class="required-note"><span class="req" aria-hidden="true">*</span> All fields required</p>
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <span class="btn-label">Submit attendance report</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+
+      <footer class="page-footer"><a href="{{ url_for('submissions') }}">View submitted reports →</a></footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Submitted Reports | Deeper Life Bible Church</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="list-page">
+  <div class="shell shell-wide">
+    <header class="list-head">
+      <img class="logo logo-small" src="{{ url_for('static', filename='logo.JPG') }}" alt="Deeper Life Bible Church logo">
+      <div>
+        <span class="eyebrow">Deeper Life Bible Church</span>
+        <h1>Submitted reports</h1>
+        <p>Every attendance report, newest first.</p>
+      </div>
+      <a class="back-link" href="{{ url_for('form') }}">← New report</a>
+    </header>
+
+    <main class="content">
+      {% if submissions %}
+      <div class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Country</th><th>Locations</th><th>Pastors</th>
+                <th>Workers</th><th>In person</th><th>Online</th><th>Grand total</th><th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in submissions %}
+              <tr>
+                <td class="muted">{{ row.id }}</td>
+                <td><strong>{{ row.country }}</strong></td>
+                <td>{{ row.total_locations }}</td>
+                <td>{{ row.total_pastors }}</td>
+                <td>{{ row.workers_brothers + row.workers_sisters }}</td>
+                <td>
+                  {{
+                    row.adults_m + row.adults_f + row.youths_m + row.youths_f +
+                    row.ypf_m + row.ypf_f + row.campus_m + row.campus_f +
+                    row.children_b + row.children_g
+                  }}
+                </td>
+                <td>{{ row.total_online }}</td>
+                <td class="grand">
+                  {{
+                    row.adults_m + row.adults_f + row.youths_m + row.youths_f +
+                    row.ypf_m + row.ypf_f + row.campus_m + row.campus_f +
+                    row.children_b + row.children_g + row.total_online
+                  }}
+                </td>
+                <td class="muted">{{ row.submitted_at }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <span class="empty-icon" aria-hidden="true">◇</span>
+        <h2>No submissions yet</h2>
+        <p>Once a report is submitted, it will appear here.</p>
+      </div>
+      {% endif %}
+
+      <footer class="page-footer"><a href="{{ url_for('form') }}">← Back to the form</a></footer>
+    </main>
+  </div>
+</body>
+</html>
