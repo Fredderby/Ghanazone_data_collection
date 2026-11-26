@@ -10,6 +10,9 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
+      SECRET_KEY: ${SECRET_KEY:-change-this-secret-key-in-production}
+      ADMIN_USER: ${ADMIN_USER:-dataanalyst}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-D@taAnalyst2026!}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3001/health', timeout=5)"]
       interval: 30s

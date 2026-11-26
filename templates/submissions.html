@@ -1,74 +1,67 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Submitted Reports | Deeper Life Bible Church</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body class="list-page">
-  <div class="shell shell-wide">
-    <header class="list-head">
-      <img class="logo logo-small" src="{{ url_for('static', filename='logo.JPG') }}" alt="Deeper Life Bible Church logo">
-      <div>
-        <span class="eyebrow">Deeper Life Bible Church</span>
-        <h1>Submitted reports</h1>
-        <p>Every attendance report, newest first.</p>
-      </div>
-      <a class="back-link" href="{{ url_for('form') }}">← New report</a>
-    </header>
+{% extends "admin_base.html" %}
+{% block title %}Submission report{% endblock %}
+{% block content %}
+<header class="admin-head">
+  <span class="eyebrow">Backend overview</span>
+  <h1>Submission report</h1>
+  <p>Every attendance report, newest first.</p>
+</header>
 
-    <main class="content">
-      {% if submissions %}
-      <div class="table-card">
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th><th>Country</th><th>Locations</th><th>Pastors</th>
-                <th>Workers</th><th>In person</th><th>Online</th><th>Grand total</th><th>Submitted</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in submissions %}
-              <tr>
-                <td class="muted">{{ row.id }}</td>
-                <td><strong>{{ row.country }}</strong></td>
-                <td>{{ row.total_locations }}</td>
-                <td>{{ row.total_pastors }}</td>
-                <td>{{ row.workers_brothers + row.workers_sisters }}</td>
-                <td>
-                  {{
-                    row.adults_m + row.adults_f + row.youths_m + row.youths_f +
-                    row.ypf_m + row.ypf_f + row.campus_m + row.campus_f +
-                    row.children_b + row.children_g
-                  }}
-                </td>
-                <td>{{ row.online_m + row.online_f }}</td>
-                <td class="grand">
-                  {{
-                    row.adults_m + row.adults_f + row.youths_m + row.youths_f +
-                    row.ypf_m + row.ypf_f + row.campus_m + row.campus_f +
-                    row.children_b + row.children_g + row.online_m + row.online_f
-                  }}
-                </td>
-                <td class="muted">{{ row.submitted_at }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% else %}
-      <div class="empty-state">
-        <span class="empty-icon" aria-hidden="true">◇</span>
-        <h2>No submissions yet</h2>
-        <p>Once a report is submitted, it will appear here.</p>
-      </div>
-      {% endif %}
-
-      <footer class="page-footer"><a href="{{ url_for('form') }}">← Back to the form</a></footer>
-    </main>
+<section class="admin-section">
+  {% if submissions %}
+  <div class="admin-table-wrap">
+    <table class="admin-table report-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Country</th><th>Locations</th><th>Pastors</th>
+          <th>Workers</th><th>In person</th><th>Online</th><th>Grand total</th>
+          <th>Submitted</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in submissions %}
+        <tr>
+          <td class="muted">{{ row.id }}</td>
+          <td><strong>{{ row.country }}</strong></td>
+          <td>{{ row.total_locations }}</td>
+          <td>{{ row.total_pastors }}</td>
+          <td>{{ row.workers_brothers + row.workers_sisters }}</td>
+          <td>
+            {{ row.adults_m + row.adults_f + row.youths_m + row.youths_f +
+               row.ypf_m + row.ypf_f + row.campus_m + row.campus_f +
+               row.children_b + row.children_g }}
+          </td>
+          <td>{{ online(row) }}</td>
+          <td class="grand">{{ grand(row) }}</td>
+          <td class="muted">{{ row.submitted_at }}</td>
+          <td>
+            <button type="button" class="delete-btn"
+                    data-action="{{ url_for('admin_delete_submission', row_id=row.id) }}"
+                    data-country="{{ row.country }}">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-</body>
-</html>
+  {% else %}
+  <div class="empty-state">
+    <span class="empty-icon" aria-hidden="true">◇</span>
+    <h2>No submissions yet</h2>
+    <p>Once a report is submitted, it will appear here.</p>
+  </div>
+  {% endif %}
+</section>
+
+<dialog id="delete-dialog" class="confirm-dialog" aria-labelledby="delete-title">
+  <form method="post" id="delete-form">
+    <span class="dialog-icon" aria-hidden="true">!</span>
+    <h2 id="delete-title">Delete submission?</h2>
+    <p id="delete-message">This report will be permanently removed.</p>
+    <div class="dialog-actions">
+      <button type="button" class="dialog-cancel" id="cancel-delete">Cancel</button>
+      <button type="submit" class="dialog-confirm">Delete report</button>
+    </div>
+  </form>
+</dialog>
+{% endblock %}

@@ -129,6 +129,20 @@ def fetch_submissions():
         connection.close()
 
 
+def delete_submission(row_id):
+    """Delete one submission. Return True when a row was removed."""
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM submissions WHERE id = %s", (row_id,))
+        deleted = cursor.rowcount > 0
+        connection.commit()
+        cursor.close()
+        return deleted
+    finally:
+        connection.close()
+
+
 def db_available():
     """Return True when the database is reachable, without raising."""
     try:

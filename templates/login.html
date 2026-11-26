@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin sign in | Deeper Life Bible Church</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="login-page">
+  <div class="login-shell">
+    <div class="login-panel">
+      <img class="logo" src="{{ url_for('static', filename='logo.JPG') }}" alt="Deeper Life Bible Church logo">
+      <span class="eyebrow">Deeper Life Bible Church</span>
+      <h1>Admin sign in</h1>
+      <p>Sign in to view reports, defaulters and submissions.</p>
+
+      {% if error %}
+      <div class="login-error" role="alert">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="{{ url_for('admin_login') }}" class="login-form">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" autocomplete="username" required value="{{ username }}" autofocus>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="submit-btn login-btn">Sign in</button>
+      </form>
+
+      <a class="login-back" href="{{ url_for('form') }}">← Back to the report form</a>
+    </div>
+  </div>
+</body>
+</html>

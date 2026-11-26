@@ -75,5 +75,12 @@ Assumption: "church workers (brothers and sisters)" is two inputs (Brothers, Sis
 4. Submit invalid data (missing field, negative, non-integer, bad country); confirm rejected with inline errors and no DB row.
 5. Check responsive layout and live totals in a browser.
 
+## Admin subsystem (added later)
+- Session-based login at `/admin/login` using `ADMIN_USER` / `ADMIN_PASSWORD` from `.env` and `SECRET_KEY` for signed cookies.
+- Protected pages: `/admin` dashboard (totals, per-country summary, recent reports), `/admin/defaulters` (countries among Sierra Leone/Ghana/Liberia absent from submissions), `/admin/submissions` (report table with delete buttons).
+- `/submissions` redirects to admin login; report data is no longer public.
+- `db.delete_submission(id)` performs a parameterized delete; the UI uses a POST-only route behind a confirmation dialog.
+- The public form links to the admin panel directly below it.
+
 ## Out of scope
-- Authentication, editing/deleting submissions, per-location entry, charts, deployment config, email notifications.
+- Editing submissions, per-location entry, charts, email notifications, role-based access.

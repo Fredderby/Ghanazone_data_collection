@@ -1,0 +1,70 @@
+{% extends "admin_base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<header class="admin-head">
+  <span class="eyebrow">Backend overview</span>
+  <h1>Dashboard</h1>
+  <p>A snapshot of every attendance report received.</p>
+</header>
+
+<div class="stat-grid">
+  <div class="stat-card"><span>Reports submitted</span><strong>{{ stats.submissions }}</strong></div>
+  <div class="stat-card"><span>In-person attendance</span><strong>{{ stats.in_person }}</strong></div>
+  <div class="stat-card"><span>Online attendance</span><strong>{{ stats.online }}</strong></div>
+  <div class="stat-card stat-accent"><span>Grand attendance</span><strong>{{ stats.grand }}</strong></div>
+</div>
+
+<section class="admin-section">
+  <div class="admin-section-head">
+    <h2>By country</h2>
+    <a href="{{ url_for('admin_submissions') }}">View report →</a>
+  </div>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead><tr><th>Country</th><th>Reports</th><th>Grand attendance</th></tr></thead>
+      <tbody>
+        {% for country in countries %}
+        <tr>
+          <td><strong>{{ country.name }}</strong></td>
+          <td>{{ country.count }}</td>
+          <td>{{ country.grand }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="admin-section">
+  <div class="admin-section-head">
+    <h2>Defaulters</h2>
+    <a href="{{ url_for('admin_defaulters') }}">Open →</a>
+  </div>
+  {% if defaulters %}
+  <div class="defaulter-chips">
+    {% for country in defaulters %}<span class="chip">{{ country }}</span>{% endfor %}
+  </div>
+  <p class="muted">Countries with no submission in the list.</p>
+  {% else %}
+  <p class="muted">All countries have submitted a report.</p>
+  {% endif %}
+</section>
+
+<section class="admin-section">
+  <div class="admin-section-head"><h2>Recent submissions</h2></div>
+  {% if recent %}
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead><tr><th>Country</th><th>Grand total</th><th>Submitted</th></tr></thead>
+      <tbody>
+        {% for row in recent %}
+        <tr><td>{{ row.country }}</td><td>{{ grand(row) }}</td><td class="muted">{{ row.submitted_at }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">No submissions yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

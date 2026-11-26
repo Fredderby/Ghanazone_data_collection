@@ -1,0 +1,31 @@
+{% extends "admin_base.html" %}
+{% block title %}Defaulters{% endblock %}
+{% block content %}
+<header class="admin-head">
+  <span class="eyebrow">Backend overview</span>
+  <h1>Defaulters</h1>
+  <p>Countries that cannot be found in the submission list.</p>
+</header>
+
+<section class="admin-section">
+  {% if defaulters %}
+  <div class="defaulter-list">
+    {% for country in defaulters %}
+    <div class="defaulter-item">
+      <span class="defaulter-mark" aria-hidden="true">!</span>
+      <div>
+        <strong>{{ country }}</strong>
+        <p class="muted">No report submitted yet.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="empty-icon" aria-hidden="true">✓</span>
+    <h2>No defaulters</h2>
+    <p>Every country has submitted a report.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

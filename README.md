@@ -49,14 +49,20 @@ Then open <http://localhost:3001>.
 
 Secrets are never baked into the image — `.env` is excluded by `.dockerignore`; values come from the deployment environment.
 
-## Pages
+## Admin panel
+
+The report form links to the admin panel. Report data is no longer public.
 
 | URL | Purpose |
 |---|---|
-| `/` | Attendance collection form |
-| `/submit` | POST endpoint (form submission) |
-| `/submissions` | Read-only list of submitted reports |
+| `/admin/login` | Admin sign-in page |
+| `/admin` | Dashboard with totals and per-country summary |
+| `/admin/defaulters` | Countries with no submission in the list |
+| `/admin/submissions` | Submission report with delete buttons |
+| `/submissions` | Redirects to admin sign-in |
 | `/health` | Health check including database status |
+
+Set `ADMIN_USER`, `ADMIN_PASSWORD` and `SECRET_KEY` in `.env` (or in Dokploy). Defaults are `dataanalyst` / `D@taAnalyst2026!` — change them before production use. Each report row has a Delete button with a confirmation dialog.
 
 ## Tests
 
