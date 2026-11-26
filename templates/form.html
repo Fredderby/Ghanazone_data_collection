@@ -30,7 +30,7 @@
         <div class="progress-block">
           <div class="progress-head">
             <span>Form completion</span>
-            <span id="progress-count">0 of 16</span>
+            <span id="progress-count">0 of 17</span>
           </div>
           <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
         </div>
@@ -101,13 +101,14 @@
             {% if errors.get('country') %}<p class="field-error">{{ errors.get('country') }}</p>{% endif %}
           </div>
 
-          <div class="field-wide">
-            {{ number_field('total_online', 'Members attending online (total)', values, errors) }}
+          <div class="grid grid-2">
+            {{ number_field('online_m', 'Online members (Male)', values, errors) }}
+            {{ number_field('online_f', 'Online members (Female)', values, errors) }}
           </div>
 
           <div class="grid grid-2">
-            {{ number_field('total_locations', 'Church locations', values, errors) }}
-            {{ number_field('total_pastors', 'Pastors', values, errors) }}
+            {{ number_field('total_locations', 'Number of church Locations', values, errors) }}
+            {{ number_field('total_pastors', 'Number of Pastors', values, errors) }}
           </div>
         </section>
 

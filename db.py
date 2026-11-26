@@ -47,7 +47,8 @@ def init_db():
                 total_pastors INT NOT NULL,
                 workers_brothers INT NOT NULL,
                 workers_sisters INT NOT NULL,
-                total_online INT NOT NULL,
+                online_m INT NOT NULL,
+                online_f INT NOT NULL,
                 adults_m INT NOT NULL,
                 adults_f INT NOT NULL,
                 youths_m INT NOT NULL,
@@ -63,7 +64,7 @@ def init_db():
             """
         )
 
-        # Migrate tables created with per-category online columns.
+        # Migrate tables created with older online-column layouts.
         def has_column(name):
             cursor.execute(
                 "SELECT COUNT(*) FROM information_schema.COLUMNS "
@@ -73,21 +74,21 @@ def init_db():
             )
             return cursor.fetchone()[0] > 0
 
-        if has_column("adults_online"):
-            if not has_column("total_online"):
+        if not has_column("online_m"):
+            for column in ("online_m", "online_f"):
                 try:
-                    cursor.execute("ALTER TABLE submissions ADD COLUMN total_online INT NOT NULL DEFAULT 0")
+                    cursor.execute(f"ALTER TABLE submissions ADD COLUMN {column} INT NOT NULL DEFAULT 0")
                 except mysql.connector.errors.ProgrammingError as exc:
                     if exc.errno != 1060:
                         raise
-                cursor.execute(
-                    "UPDATE submissions SET total_online = "
-                    "COALESCE(adults_online, 0) + COALESCE(youths_online, 0) + "
-                    "COALESCE(ypf_online, 0) + COALESCE(campus_online, 0) + "
-                    "COALESCE(children_online, 0)"
-                )
-            for legacy in ("adults_online", "youths_online", "ypf_online", "campus_online", "children_online"):
-                cursor.execute(f"ALTER TABLE submissions MODIFY COLUMN {legacy} INT NULL DEFAULT 0")
+
+        legacy_columns = (
+            "adults_online", "youths_online", "ypf_online",
+            "campus_online", "children_online", "total_online",
+        )
+        for column in legacy_columns:
+            if has_column(column):
+                cursor.execute(f"ALTER TABLE submissions MODIFY COLUMN {column} INT NULL DEFAULT 0")
 
         connection.commit()
         cursor.close()

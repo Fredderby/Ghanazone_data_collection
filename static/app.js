@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  const NON_ATTENDANCE = ["total_locations", "total_pastors", "workers_brothers", "workers_sisters", "total_online"];
+  const NON_ATTENDANCE = ["total_locations", "total_pastors", "workers_brothers", "workers_sisters", "online_m", "online_f"];
 
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("attendance-form");
@@ -61,7 +61,7 @@
         inPerson += numericValue(input);
       });
 
-      const online = numericValue(form.elements["total_online"]);
+      const online = numericValue(form.elements["online_m"]) + numericValue(form.elements["online_f"]);
       setTotal(totalInPerson, inPerson);
       setTotal(totalOnline, online);
       setTotal(totalGrand, inPerson + online);

@@ -35,7 +35,7 @@ Table `submissions` (created automatically at startup if missing):
 | total_pastors | INT | required, >= 0 |
 | workers_brothers | INT | required, >= 0 |
 | workers_sisters | INT | required, >= 0 |
-| total_online | INT | required, >= 0 — one online field for the whole report |
+| online_m, online_f | INT | required, >= 0 — online members by gender |
 | adults_m, adults_f | INT | required, >= 0 |
 | youths_m, youths_f | INT | required, >= 0 |
 | ypf_m, ypf_f | INT | required, >= 0 |

@@ -44,12 +44,12 @@
                     row.children_b + row.children_g
                   }}
                 </td>
-                <td>{{ row.total_online }}</td>
+                <td>{{ row.online_m + row.online_f }}</td>
                 <td class="grand">
                   {{
                     row.adults_m + row.adults_f + row.youths_m + row.youths_f +
                     row.ypf_m + row.ypf_f + row.campus_m + row.campus_f +
-                    row.children_b + row.children_g + row.total_online
+                    row.children_b + row.children_g + row.online_m + row.online_f
                   }}
                 </td>
                 <td class="muted">{{ row.submitted_at }}</td>

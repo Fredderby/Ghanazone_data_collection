@@ -11,7 +11,8 @@ VALID_PAYLOAD = {
     "total_pastors": "8",
     "workers_brothers": "20",
     "workers_sisters": "35",
-    "total_online": "83",
+    "online_m": "40",
+    "online_f": "43",
     "adults_m": "100",
     "adults_f": "150",
     "youths_m": "30",
@@ -31,7 +32,8 @@ def test_valid_payload_returns_clean_integers_and_no_errors():
     assert errors == {}
     assert clean["country"] == "Sierra Leone"
     assert clean["total_locations"] == 12
-    assert clean["total_online"] == 83
+    assert clean["online_m"] == 40
+    assert clean["online_f"] == 43
     assert clean["children_b"] == 50
     assert isinstance(clean["workers_sisters"], int)
 
@@ -89,4 +91,5 @@ def test_zero_is_accepted():
 
     assert errors == {}
     assert clean["adults_m"] == 0
-    assert clean["total_online"] == 0
+    assert clean["online_m"] == 0
+    assert clean["online_f"] == 0

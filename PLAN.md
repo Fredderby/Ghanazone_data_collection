@@ -14,7 +14,7 @@
 - Work in `F:\DEVELOPED APPS\SMATSOULS`; standard `templates/` and `static/` folders are allowed.
 - Countries exactly: Sierra Leone, Ghana, Liberia.
 - Report date exactly: Sunday, 29 November 2026.
-- Attendance categories exactly: adults, youths, ypf, campus, children, with only in-person inputs (`m`/`f`, children `b`/`g`); online attendance is one `total_online` field.
+- Attendance categories exactly: adults, youths, ypf, campus, children, with only in-person inputs (`m`/`f`, children `b`/`g`); online attendance uses `online_m` and `online_f`.
 - Every field is required; numeric values must be non-negative integers (0 allowed).
 - DB config keys: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`.
 - No authentication, no build tooling, no npm.
@@ -68,7 +68,7 @@ Run: `env\Scripts\pytest test_validation.py -v`
 
 - [ ] **Step 3: Implement `validate_submission`**
 
-Fields: `country`, `total_locations`, `total_pastors`, `workers_brothers`, `workers_sisters`, one `total_online` field, then 10 category in-person fields: `{cat}_m`, `{cat}_f` for adults/youths/ypf/campus and `children_b`, `children_g`. Required, non-negative integer parsing, country allowlist.
+Fields: `country`, `total_locations`, `total_pastors`, `workers_brothers`, `workers_sisters`, `online_m` and `online_f`, then 10 category in-person fields: `{cat}_m`, `{cat}_f` for adults/youths/ypf/campus and `children_b`, `children_g`. Required, non-negative integer parsing, country allowlist.
 
 - [ ] **Step 4: Run tests, verify PASS**
 

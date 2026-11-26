@@ -44,7 +44,8 @@ def test_submit_valid_redirects(client, monkeypatch):
     assert captured["country"] == "Sierra Leone"
     assert captured["adults_m"] == 100
     assert captured["children_b"] == 50
-    assert captured["total_online"] == 83
+    assert captured["online_m"] == 40
+    assert captured["online_f"] == 43
 
 
 def test_submit_invalid_shows_errors(client, monkeypatch):

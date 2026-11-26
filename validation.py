@@ -11,7 +11,7 @@ SUMMARY_FIELDS = (
     "workers_sisters",
 )
 
-ONLINE_FIELD = "total_online"
+ONLINE_FIELDS = ("online_m", "online_f")
 
 CATEGORY_SUFFIXES = {
     "adults": ("m", "f"),
@@ -26,7 +26,7 @@ CATEGORY_FIELDS = tuple(
     for suffix in suffixes
 )
 
-NUMERIC_FIELDS = SUMMARY_FIELDS + (ONLINE_FIELD,) + CATEGORY_FIELDS
+NUMERIC_FIELDS = SUMMARY_FIELDS + ONLINE_FIELDS + CATEGORY_FIELDS
 ALL_FIELDS = ("country",) + NUMERIC_FIELDS
 
 
