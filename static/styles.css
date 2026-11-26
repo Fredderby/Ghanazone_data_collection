@@ -272,6 +272,35 @@ a { color: var(--navy); }
 .category h3 { margin-bottom: 15px; font-size: 1rem; }
 .category h3::after { content: ""; display: block; width: 26px; height: 2px; margin-top: 7px; background: var(--brass); }
 
+.submit-progress {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--paper);
+}
+.submit-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 9px;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.submit-progress-head span:first-child { color: var(--navy); font-weight: 700; }
+.submit-progress-track { height: 6px; border-radius: 99px; background: var(--paper-3); overflow: hidden; }
+.submit-progress-bar {
+  width: 35%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--brass), var(--brass-2), var(--brass));
+  background-size: 200% 100%;
+  animation: submit-sweep 1.1s linear infinite, submit-slide 1.3s ease-in-out infinite alternate;
+}
+@keyframes submit-sweep { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@keyframes submit-slide { from { transform: translateX(-100%); } to { transform: translateX(290%); } }
+
 .form-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; }
 .required-note { margin: 0; color: var(--ink-2); font-size: var(--step-sm); }
 

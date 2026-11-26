@@ -133,6 +133,12 @@
         return;
       }
 
+      const progress = document.getElementById("submit-progress");
+      if (progress) {
+        progress.hidden = false;
+        progress.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
       if (submitButton) {
         submitButton.classList.add("is-loading");
         submitButton.disabled = true;
